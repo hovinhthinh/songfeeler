@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/hovinhthinh/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3_0223efeadf4e8e52825bfb12445f3baf8edfbc5b.jar" />
+    </item>
+    <item
+        jar="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3_951a035d74fa4cfaec8c4d0e808da7686fc65f99.jar" />
+    </item>
+    <item
+        jar="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/libs/java-json.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="edad9c5de6fb8df07c535a47045956026011ffa3">
+        <dex dex="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/pre-dexed/debug/java-json_2670be8bc35e7a323dbe25f4ed4aec583878188a.jar" />
+    </item>
+    <item
+        jar="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-21.0.3_35f53961daaa061a4c533589a1e30769dee31dee.jar" />
+    </item>
+
+</items>

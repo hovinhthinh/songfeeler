@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+    <entry key="frequency-spectrum.max-duration">480</entry>
+    <entry key="frequency-spectrum.min-duration">60</entry>
+
+    <entry key="detector.diff-threshold">4000</entry>
+    <entry key="detector.match-threshold">45</entry>
+    <entry key="detector.try-match-time">4</entry>
+    <entry key="detector.try-match-shift">256</entry>
+    <entry key="detector.thread-per-detect">4</entry>
+    <entry key="detector.worker.running-block">5</entry>
+    <entry key="detector.detect-time-limit">15</entry>
+    <entry key="detector.detect-total-time-limit">25</entry>
+
+    <entry key="detector-server.address">songfeeler.cloudapp.net</entry>
+    <entry key="detector-server.handler-port">8999</entry>
+    <entry key="detector-server.detect-port">7999</entry>
+    <entry key="detector-server.thread-pool-min">10</entry>
+    <entry key="detector-server.thread-pool-max">20</entry>
+    <entry key="detector-server.detect-connection-limit">5</entry>
+    <entry key="detector-server.detect-connection-reserved">1</entry>
+
+    <entry key="handler.add-song.context-path">/add</entry>
+    <entry key="handler.remove-song.context-path">/remove</entry>
+    <entry key="handler.list-song.context-path">/list</entry>
+    <entry key="handler.detect-song.context-path">/detect</entry>
+    <entry key="handler.analyze-song-by-url.context-path">/analyzeByUrl</entry>
+    <entry key="handler.analyze-song-by-uploading.context-path">/analyzeByUploading</entry>
+    <entry key="handler.contain-song.context-path">/contain</entry>
+    <entry key="handler.ping.context-path">/ping</entry>
+
+    <entry key="web-server.address">127.0.0.1</entry>
+    <entry key="web-server.port">80</entry>
+    <entry key="web-server.handler.get-song-info.context-path">/api/SongManager/Get/</entry>
+    <entry key="web-server.handler.increase-detected.context-path">/api/SongManager/IncreaseDetected/</entry>
+
+</properties>

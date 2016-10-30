@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SongFeeler</string>
+    <string name="title_home_en">Home</string>
+    <string name="title_history_en">History</string>
+    <string name="show_lyrics_en">Lyrics</string>
+    <string name="link_en">Link</string>
+    <string name="share_en">Share</string>
+    <string name="connection_error_en">Network problem.</string>
+    <string name="db_error_en">Database error.</string>
+    <string name="no_history_en">History empty</string>
+    <string name="share_title_en">Share the song</string>
+    <string name="identify_en">TOUCH TO IDENTIFY</string>
+    <string name="listening_en">LISTENING ...</string>
+    <string name="no_lyrics_en">Lyrics is not updated!</string>
+    <string name="no_match_en">&quot;We couldn't find a match. SongFeeler cannot identify singing or humming.&quot;</string>
+    <string name="no_link_en">Link is not updated.</string>
+
+</resources>

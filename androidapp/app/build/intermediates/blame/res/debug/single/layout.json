@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/fragment_history.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/fragment_history.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/fragment_song_lyrics.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/fragment_song_lyrics.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/fragment_song_detail.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/fragment_song_detail.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/fragment_home.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/fragment_home.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/history_item.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/history_item.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/layout/activity_song_detail.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/layout/activity_song_detail.xml"
+    }
+]

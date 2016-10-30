@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!-- x-dimension: time
+     y-dimension: frequency
+     -->
+<properties>
+    <!-- START OF SOBJ INNER PARAMETERS -->
+    <!-- Don't change it bigger, could affect internal process -->
+    <entry key="frequency-spectrum.fft-size">1024</entry>
+
+    <!-- Don't change it, must support all device -->
+    <entry key="frequency-spectrum.sample-rate">8000</entry>
+
+    <entry key="frequency-spectrum.overlap">0</entry>
+    <entry key="frequency-spectrum.trim-threshold">0.025</entry>
+
+    <!-- NULL | GAUSSIAN | HANNING | BLACKMAN -->
+    <entry key="frequency-spectrum.window">GAUSSIAN</entry>
+
+    <entry key="frequency-spectrum.peak.frequency-threshold">11</entry>
+    <entry key="frequency-spectrum.peak.magnitude-threshold">0.025</entry>
+    <entry key="frequency-spectrum.peak.peak-tester.x-size">1</entry>
+    <entry key="frequency-spectrum.peak.peak-tester.y-size">24</entry>
+
+    <!-- must be positive -->
+    <entry key="fingerprint.x-size-min">2</entry>
+
+    <entry key="fingerprint.x-size-max">12</entry>
+    <entry key="fingerprint.y-size">64</entry>
+    <entry key="fingerprint.limit-associate-per-anchor">12</entry>
+    <!-- END OF SOBJ INNER PARAMETERS -->
+</properties>

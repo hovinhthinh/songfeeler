@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/color/vpi__dark_theme.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/color/vpi__dark_theme.xml"
+    },
+    {
+        "merged": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/build/intermediates/res/merged/debug/color/vpi__light_theme.xml",
+        "source": "/Users/hovinhthinh/AndroidStudioProjects/Android Mobile App/app/src/main/res/color/vpi__light_theme.xml"
+    }
+]

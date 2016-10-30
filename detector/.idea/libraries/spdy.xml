@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="spdy">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jetty/spdy/spdy-client-9.2.2.v20140723.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty/spdy/spdy-server-9.2.2.v20140723.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty/spdy/spdy-http-common-9.2.2.v20140723.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty/spdy/spdy-core-9.2.2.v20140723.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jetty/spdy/spdy-http-server-9.2.2.v20140723.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
