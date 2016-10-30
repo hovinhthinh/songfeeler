@@ -1,5 +1,7 @@
 # songfeeler
 
+music recogition system (like Shazam, SoundHound and other systems)
+
 ## androidapp
 
 built on Android Studio
