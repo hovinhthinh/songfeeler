@@ -1,0 +1,2 @@
+javac -cp lib/*:lib/jetty/*:src/java -d out src/java/server/DetectorServer.java
+

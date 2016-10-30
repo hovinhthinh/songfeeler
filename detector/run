@@ -1,0 +1,2 @@
+java -Xmx64g -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -cp lib/*:lib/jetty/*:src/java:out server.DetectorServer
+
