@@ -1,0 +1,141 @@
+<%= form_for @song do |f| %>
+    <div class="container">
+      <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+
+          <h1>Edit song "<b style="color: green"><%= @song.title %></b>"</h1>
+          &nbsp
+          <table class="table">
+            <tr class="row">
+              <td class="col-xs-1">
+                <%= f.label :url, "Url", class: "control-label" %>
+              </td>
+              <td colspan="3" class="col-xs-11">
+                <div class="input-group" style="width:100%;">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-link"></i>
+                  </span>
+                  <%= f.text_field :url, class: "form-control", placeholder: "Url of the song" %>
+                  <span class="input-group-btn">
+                    <input disabled type="button" value="Analyze Url (Disabled function)" id="analyze_url" class="btn btn-feedback"/>
+                  </span>
+
+                </div>
+
+              </td>
+            </tr>
+            <tr class="row">
+              <td class="col-xs-1">
+                <%= f.label :title, "Title", class: "control-label" %>
+              </td>
+              <td colspan="3" class="col-xs-11">
+                <div class="input-group" style="width: 100%">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i></span>
+                  <%= f.text_field :title, class: "form-control", placeholder: "Title of the song (cannot be blank)" %>
+                </div>
+              </td>
+            </tr>
+            <tr class="row">
+              <td rowspan="3" class="col-xs-1">
+                <label class="control-label" for="artist_image">Image</label>
+              </td>
+              <td rowspan="3" class="col-xs-5">
+                <div class="input-group">
+                  <%= f.hidden_field :image, id: "image" %>
+                  <%= f.hidden_field :mini_image, id: "mini_image" %>
+                  <label for="choose_image">
+                    <%= image_tag (@song.image == "" ? "default-artist.jpg" : "data:image/jpg;base64," + @song.image),
+                                  id: "artist_image", alt: "Ảnh đại diện",
+                                  class: "col-ld-5 thumb img-thumbnail",
+                                  style: "height:250px;width:250px;",
+                                  title: "Click on Image to choose another" %>
+                  </label>
+                  <input class="hidden" type="file" accept="image/jpeg,image/png,image/gif" id="choose_image" name="Choose_Image"/>
+                </div>
+              </td>
+
+              <td class="col-xs-1">
+                <%= f.label :author, "Author", class: "control-label" %>
+              </td>
+              <td class="col-xs-5">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                  <%= f.text_field :author, class: "form-control", placeholder: "Author of the song" %>
+                </div>
+              </td>
+            </tr>
+            <tr class="row">
+              <td class="col-xs-1">
+                <%= f.label :artist, "Artist", class: "control-label" %>
+              </td>
+              <td class="col-xs-5">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <%= f.text_field :artist, class: "form-control", placeholder: "Artist of the song" %>
+                </div>
+              </td>
+            </tr>
+            <tr class="row">
+              <td class="col-xs-1">
+                <label for="finger_print_status">Fingerprint</label>
+              </td>
+              <td class="col-xs-5">
+                <span style="font-weight:bold;">Ready? <span style="color:green;" id="finger_print_status">Yes</span></span>
+
+                <div>
+                  <input id="file_path" class="form-control" readonly="" type="text"
+                         value="<%= "{Length:#{@song.fingerprint.length},Data='#{@song.fingerprint[0..49]}...'}" %>">
+                </div>
+
+                &nbsp
+                <div>
+                  <span class="btn btn-primary btn-file" style="float:left; width: 125px">
+                    Choose a song<input id="choose_song" class="form-control" type="file" accept="audio/wav, audio/mp3">
+                  </span>
+                  <span style="float: left;">&nbsp</span>
+                  <input type="button" style="float: left; width: 125px" id="analyze" value="Analyze song" class="btn btn-primary"/>
+                </div>
+                <%= f.hidden_field :fingerprint, id: "fingerprint" %>
+                <%= f.hidden_field :fingerprint_hash, id: "fingerprint_hash" %>
+                <span class="hidden" id="file_data"></span>
+                <span class="hidden" id="file_type"></span>
+
+              </td>
+            </tr>
+            <tr class="row">
+              <td class="col-xs-1">
+                <%= f.label :lyrics, "Lyrics", class: "control-label" %>
+              </td>
+              <td colspan="3" class="col-xs-11">
+                <%= f.text_area :lyrics, style: "resize:vertical;", class: "form-control", placeoholder: "Lyrics of the song", rows: "10" %>
+              </td>
+            </tr>
+            <tr class="row">
+              <td class="col-xs-1"></td>
+              <td class="col-xs-11" colspan="3">
+                <button style="color: white; width: 100px" type="submit" class="btn btn-success" id="submit">
+                  <i class="glyphicon glyphicon-floppy-disk"></i> Save
+                </button>
+                <a style="color: white; width: 100px" class="btn btn-danger" href="<%= song_path(@song) %>">
+                  <i class="glyphicon glyphicon-trash"></i> Cancel</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+<% end %>
+<script>
+    $(document).ready(function () {
+        if ($('#fingerprint').val() == "") {
+            validateError("#file_path");
+            $('#file_path').css("color", "red");
+            $('#file_path').val("");
+            $('#finger_print_status').removeAttr("style").css("color", "red").html("No");
+        } else {
+            validateSuccess("#file_path");
+            $('#file_path').css("color", "green");
+        }
+    });
+    <%= render 'scripts/new_edit.js' %>
+</script>

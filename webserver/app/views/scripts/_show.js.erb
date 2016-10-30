@@ -1,0 +1,89 @@
+/**
+ * Created by hovinhthinh on 1/25/16.
+ */
+$(".form-control").each(function () {
+    if ($(this).val() != "") {
+        $(this).css("color", "green");
+    }
+});
+
+$('#rmButton').on('click', function () {
+    bootbox.confirm("Are you sure to remove song '<%= @song.title %>'?", function (result) {
+        if (result) {
+            $('#rmSong').trigger('click');
+        }
+    });
+});
+
+var updateActionButton = function () {
+    $.ajax({
+        type: "GET",
+        url: "<%= contain_path %>",
+        data: {Key: $('#adSong').attr("song-id")},
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            if (data.Verdict == "Yes") {
+                $('#adSong').removeAttr('disabled');
+                if (data.Result == "No") {
+                    $('#adSong').removeClass("btn-info").removeClass("btn-success").removeClass("btn-warning").addClass("btn-success");
+                    $('#adSong').attr("status", "-1")
+                    $('#adSong').html('<i class="glyphicon glyphicon-save"></i> Attach');
+                } else {
+                    $('#adSong').removeClass("btn-info").removeClass("btn-success").removeClass("btn-warning").addClass("btn-warning");
+                    $('#adSong').attr("status", "1")
+                    $('#adSong').html('<i class="glyphicon glyphicon-open"></i> Detach');
+                }
+            }
+        },
+        error: function () {
+            $('#adSong').attr('disabled', 'disabled');
+            $('#adSong').removeClass("btn-info").removeClass("btn-success").removeClass("btn-warning").addClass("btn-info");
+            $('#adSong').attr("status", "0");
+            $('#adSong').html('<i class="glyphicon glyphicon-off"></i> ...');
+        }
+    });
+}
+$(document).ready(function () {
+    updateActionButton();
+});
+
+
+$('#adSong').on('click', function () {
+    var jsonObj = {};
+    jsonObj["Key"] = $(this).attr('song-id');
+
+    var oldStatus = $(this).attr("status");
+    if (oldStatus == "-1") {
+        $.ajax({
+            type: "POST",
+            url: "<%= attach_path %>",
+            data: JSON.stringify(jsonObj),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                $('#adSong').attr('disabled', 'disabled');
+            },
+            complete: function () {
+                updateActionButton();
+            }
+        });
+
+    } else if (oldStatus == "1") {
+        $.ajax({
+            type: "POST",
+            url: "<%= detach_path %>",
+            data: JSON.stringify(jsonObj),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                $('#adSong').attr('disabled', 'disabled');
+            },
+            complete: function () {
+                updateActionButton();
+            }
+        });
+    }
+});
+
+

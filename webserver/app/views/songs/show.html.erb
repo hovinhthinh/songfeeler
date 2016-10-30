@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+      <h1>Song information</h1>
+      &nbsp
+      <table class="table">
+        <tr class="row">
+          <td class="col-xs-1">
+            <label class="control-label">Url</label>
+          </td>
+          <td colspan="3" class="col-xs-11">
+            <div class="input-group" style="width:100%;">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-link"></i>
+                  </span>
+              <input readonly type="text" placeholder="Empty url" class="form-control" value="<%= @song.url %>"/>
+            </div>
+
+          </td>
+        </tr>
+        <tr class="row">
+          <td class="col-xs-1">
+            <label class="control-label">Title</label>
+          </td>
+          <td colspan="3" class="col-xs-11">
+            <div class="input-group" style="width: 100%">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-music"></i></span>
+              <input readonly type="text" placeholder="Empty title" class="form-control" value="<%= @song.title %>"/>
+            </div>
+          </td>
+        </tr>
+        <tr class="row">
+          <td rowspan="3" class="col-xs-1">
+            <label class="control-label">Image</label>
+          </td>
+          <td rowspan="3" class="col-xs-5">
+            <div class="input-group">
+              <%= image_tag (@song.image == "" ? "default-artist.jpg" : "data:image/jpg;base64," + @song.image),
+                            id: "artist_image", alt: "Ảnh đại diện",
+                            class: "thumb img-thumbnail",
+                            style: "width:250px;height:250px;",
+                            title: "Click on Image to choose another" %>
+            </div>
+          </td>
+
+          <td class="col-xs-1">
+            <label class="control-label">Author</label>
+          </td>
+          <td class="col-xs-5">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+              <input readonly type="text" placeholder="Empty author" class="form-control" value="<%= @song.author %>"/>
+            </div>
+          </td>
+        </tr>
+        <tr class="row">
+          <td class="col-xs-1">
+            <label class="control-label">Artist</label>
+          </td>
+          <td class="col-xs-5">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input readonly type="text" placeholder="Empty artist" class="form-control" value="<%= @song.artist %>"/>
+            </div>
+          </td>
+        </tr>
+        <tr class="row">
+          <td class="col-xs-1">
+            <label for="finger_print_status">Fingerprint</label>
+          </td>
+          <td class="col-xs-5">
+            <span style="font-weight:bold;">Ready? <span style="color:green;">Yes</span></span>
+
+            <div>
+
+              <input class="form-control" readonly type="text" value="<%= "{Length:#{@song.fingerprint.length},Data:'#{@song.fingerprint[0..49]}...'}" %>">
+            </div>
+
+            &nbsp
+            <div style="width: 300px">
+            </div>
+          </td>
+        </tr>
+        <tr class="row">
+          <td class="col-xs-1">
+            <label class="control-label">Lyrics</label>
+          </td>
+          <td colspan="3" class="col-xs-11">
+            <textarea readonly style="resize:vertical;" class="form-control" placeholder="Empty lyrics" rows="10"><%= @song.lyrics %></textarea>
+          </td>
+        </tr>
+        <tr class="row">
+          <td class="col-xs-1"></td>
+          <td class="col-xs-11" colspan="3">
+            <a disabled status="0" id="adSong" style="color: white; width: 100px" class="btn btn-info" song-id="<%= @song.id %>">
+              <i class="glyphicon glyphicon-off"></i> ...
+            </a>
+            <a style="color: white; width: 100px" class="btn btn-danger" href="<%= edit_song_path @song %>">
+              <i class="glyphicon glyphicon-edit"></i> Edit
+            </a>
+            <a style="color: white; width: 100px" class="btn btn-primary" href="<%= home_path %>">
+              <i class="glyphicon glyphicon-home"></i> Home
+            </a>
+
+            <%= link_to "", @song, {method: :delete, id: "rmSong", style: "display: none"} %>
+            <a id="rmButton" style="float:right; color: white" class="btn btn-danger">
+              <i class="glyphicon glyphicon-trash"></i> Remove
+            </a>
+
+
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+    <%= render 'scripts/show.js' %>
+</script>
+

@@ -1,0 +1,150 @@
+var updateActionButton = function (id) {
+    var button = "#adSong-" + id;
+    $.ajax({
+        type: "GET",
+        url: "<%= contain_path %>",
+        data: {Key: $(button).attr("song-id")},
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            if (data.Verdict == "Yes") {
+                $(button).removeAttr('disabled');
+                if (data.Result == "No") {
+                    $(button).removeClass("btn-info").removeClass("btn-success").removeClass("btn-warning").addClass("btn-success");
+                    $(button).attr("status", "-1")
+                    $(button).html('<i class="glyphicon glyphicon-save"></i> Attach');
+                } else {
+                    $(button).removeClass("btn-info").removeClass("btn-success").removeClass("btn-warning").addClass("btn-warning");
+                    $(button).attr("status", "1")
+                    $(button).html('<i class="glyphicon glyphicon-open"></i> Detach');
+                }
+            }
+        },
+        error: function () {
+            $(button).attr('disabled', 'disabled');
+            $(button).removeClass("btn-info").removeClass("btn-success").removeClass("btn-warning").addClass("btn-info");
+            $(button).attr("status", "0");
+            $(button).html('<i class="glyphicon glyphicon-off"></i> ...');
+        }
+    });
+}
+
+var adSong = function (id) {
+    var button = "#adSong-" + id;
+    var jsonObj = {};
+    jsonObj["Key"] = $(button).attr('song-id');
+
+    var oldStatus = $(button).attr("status");
+    if (oldStatus == "-1") {
+        $.ajax({
+            type: "POST",
+            url: "<%= attach_path %>",
+            data: JSON.stringify(jsonObj),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                $(button).attr('disabled', 'disabled');
+            },
+            complete: function () {
+                updateActionButton(id);
+            }
+        });
+
+    } else if (oldStatus == "1") {
+        $.ajax({
+            type: "POST",
+            url: "<%= detach_path %>",
+            data: JSON.stringify(jsonObj),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                $(button).attr('disabled', 'disabled');
+            },
+            complete: function () {
+                updateActionButton(id);
+            }
+        });
+    }
+}
+
+var grid = $('.lazy-load').masonry({
+    itemSelector: '.grid-item'
+});
+
+var next_offset = 0;
+var count_record = 0;
+$(document).ready(function () {
+    $('#marker').on('lazyshow', function () {
+        $.ajax({
+            type: "GET",
+            url: "<%= block_path %>",
+            data: {query: $("#query").val(), offset: next_offset},
+            contentType: 'application/json; charset=utf-8',
+            success: function (responseText) {
+
+                $('.lazy-load').append(responseText);
+
+                grid.masonry('reloadItems');
+                grid.masonry('layout');
+
+                if (responseText == "") {
+                    $('#loader').hide();
+                    if (count_record == 0) {
+                        $('#no-record').show();
+                    }
+
+                    return;
+                }
+
+                var ids = responseText.match(/grid-item-\d+/g);
+                count_record += ids.length;
+                for (var i = 0; i < ids.length; ++i) {
+                    $('#' + ids[i]).show();
+                    updateActionButton(ids[i].substr(10));
+                }
+
+                var tmp = responseText.indexOf('next-offset="') + 13;
+                next_offset = parseInt(responseText.substring(tmp, responseText.indexOf('"', tmp)));
+                $('#marker').lazyLoadXT({visibleOnly: false, checkDuplicates: false});
+            },
+            error: function () {
+                $('#marker').lazyLoadXT({visibleOnly: false, checkDuplicates: false});
+            }
+        });
+    }).lazyLoadXT({visibleOnly: false});
+});
+
+var rmSong = function (id) {
+    var title = $('#title-' + id).html();
+    bootbox.confirm("Are you sure to remove song '" + title + "'?", function (result) {
+        if (result) {
+            $.ajax({
+                type: "DELETE",
+                url: $('#rmSong-' + id).attr("href") + ".json",
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#rmSong-btn-' + id).attr("disabled", "disabled");
+                    $('#adSong-' + id).attr("disabled", "disabled");
+                    $('#imgSong-' + id).removeAttr("onclick");
+                },
+                success: function() {
+                    $('#grid-item-' + id).remove();
+                    grid.masonry('reloadItems');
+                    grid.masonry('layout');
+                },
+                error: function() {
+                    bootbox.dialog({
+                        message: "Server internal error...",
+                        title: "Alert",
+                        buttons: {
+                            danger: {
+                                label: "Return",
+                                className: "btn-danger",
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+}

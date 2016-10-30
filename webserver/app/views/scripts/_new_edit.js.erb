@@ -1,0 +1,157 @@
+/**
+ * Created by hovinhthinh on 1/23/16.
+ */
+
+var validateNormal = function (target) {
+    target = $(target);
+    while (target.get(0).tagName != 'DIV') {
+        target = target.parent()
+    }
+    target.removeClass("has-error").removeClass("has-feedback").removeClass("has-warning").removeClass("has-success");
+};
+
+var validateSuccess = function (target) {
+    target = $(target);
+    while (target.get(0).tagName != 'DIV') {
+        target = target.parent()
+    }
+    target.removeClass("has-error").removeClass("has-feedback").removeClass("has-warning").addClass("has-success");
+};
+
+var validateError = function (target) {
+    target = $(target);
+    while (target.get(0).tagName != 'DIV') {
+        target = target.parent()
+    }
+    target.removeClass("has-success").removeClass("has-feedback").removeClass("has-warning").addClass("has-error");
+};
+
+$('#choose_image').change(function () {
+    var files = this.files;
+    var file = this.files[0];
+    if (file != null) {
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            var res = e.target.result;
+            $('#artist_image').attr('src', res);
+            //resize
+            var tempImg = new Image();
+            tempImg.src = reader.result;
+            tempImg.onload = function () {
+                var MAX_WIDTH = 200;
+                var MAX_HEIGHT = 200;
+
+                var canvas = document.createElement('canvas');
+                canvas.width = MAX_WIDTH;
+                canvas.height = MAX_HEIGHT;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(this, 0, 0, MAX_WIDTH, MAX_HEIGHT);
+                var dataURL = canvas.toDataURL("image/jpeg");
+                var data = dataURL.split(',')[1];
+                $('#mini_image').attr('value', data);
+
+                MAX_WIDTH = 400;
+                MAX_HEIGHT = 400;
+                canvas = document.createElement('canvas');
+                canvas.width = MAX_WIDTH;
+                canvas.height = MAX_HEIGHT;
+                ctx = canvas.getContext("2d");
+                ctx.drawImage(this, 0, 0, MAX_WIDTH, MAX_HEIGHT);
+                dataURL = canvas.toDataURL("image/jpeg");
+
+                data = dataURL.split(',')[1];
+                $('#image').attr('value', data);
+            }
+        }
+        reader.readAsDataURL(file);
+
+    }
+});
+
+$('#choose_song').change(function () {
+
+    var files = this.files;
+    var file = this.files[0];
+    if (file != null) {
+        var reader = new FileReader();
+        reader.onloadend = function (e) {
+            var res = e.target.result;
+            var base64 = res.split(',')[1];
+            $('#file_data').empty();
+            $('#file_data').html(base64);
+            $('#file_path').removeAttr('style').val(file.name);
+            validateNormal('#file_path');
+            var arr = file.name.split('.');
+            $('#file_type').html(arr[arr.length - 1].toLowerCase());
+            $('#finger_print_status').html("No").removeAttr('style').css("color", "red")
+            $('#fingerprint').val("");
+
+            if (base64 == null || base64 == "") {
+                $('#file_path').removeAttr('style').css('color', 'red');
+                $('#file_path').val('Empty file. Please choose another...');
+                validateError("#file_path");
+            }
+        };
+        reader.readAsDataURL(file);
+        $('#choose_song').val("");
+    } else {
+    }
+});
+// Analyze by uploading
+$('#analyze').on('click', function () {
+    // validate if a song is pick up
+    var str = $('#file_data').html();
+    if (str == null || str == "") {
+        $('#file_path').removeAttr('style').css('color', 'red');
+        $('#file_path').val('Please choose a song...');
+        validateError("#file_path");
+        return;
+    }
+    // Prepare data for uploading
+    jsonObj = {};
+    jsonObj["Content"] = str;
+    jsonObj["Type"] = $('#file_type').html();
+
+    $.ajax({
+        type: "POST",
+        url: "<%= analyze_path %>",
+        data: JSON.stringify(jsonObj),
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // Disable elements
+            $('#analyze').prop('disabled', true);
+            $('#submit').prop('disabled', true);
+            $('#analyze').attr('value', 'Analyzing...')
+        },
+        success: function (data) {
+            if (data.Verdict == "Yes") {
+                $('#fingerprint').val(data.Fingerprint);
+                $('#fingerprint_hash').val(data.FingerprintHash);
+                validateSuccess('#file_path');
+                $('#file_path').removeAttr('style').css('color', 'green');
+                $('#finger_print_status').html("Yes").removeAttr('style').css("color", "green")
+            } else {
+                validateError('#file_path');
+                $('#finger_print_status').html("No").removeAttr('style').css("color", "red")
+                $('#file_data').empty();
+                $('#file_path').removeAttr('style').css('color', 'red');
+                $('#file_path').val("Error with song file...")
+                $('#fingerprint').val("");
+            }
+        },
+        error: function () {
+            validateError('#file_path');
+            $('#finger_print_status').html("No").removeAttr('style').css("color", "red")
+            $('#file_data').html("");
+            $('#file_path').removeAttr('style').css('color', 'red');
+            $('#file_path').val("Server internal error...")
+            $('#fingerprint').val("");
+        },
+        complete: function () {
+            $('#analyze').prop('disabled', false);
+            $('#submit').prop('disabled', false);
+            $('#analyze').attr('value', 'Analyze song')
+        }
+    });
+});

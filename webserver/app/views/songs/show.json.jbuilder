@@ -1,0 +1,11 @@
+json.extract! @song, :id,
+              :url,
+              :title,
+              :author,
+              :artist,
+              :image,
+              :mini_image,
+              :fingerprint,
+              :fingerprint_hash,
+              :created_at,
+              :updated_at

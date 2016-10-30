@@ -1,0 +1,143 @@
+<div class="container col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+  <h1>Detector status</h1>
+  &nbsp
+
+  <table class="table">
+    <tr class="row">
+      <td class="col-xs-2" align="right"><b>Total songs:</b></td>
+      <td class="col-xs-2" style="color: darkblue"><b id="num-total"></b></td>
+      <td class="col-xs-2" align="right"><b>Attached songs:</b></td>
+      <td class="col-xs-2" style="color: green"><b id="num-success"></b></td>
+      <td class="col-xs-2" align="right"><b>Attaching errors:</b></td>
+      <td class="col-xs-2" style="color: red"><b id="num-error"></b></td>
+    </tr>
+    <tr class="row">
+
+    </tr>
+    <tr class="row">
+      <td class="col-xs-2" align="right"><b>Status:</b></td>
+      <td class="col-xs-10" colspan="5">
+        <div class="progress">
+          <div id="pbs" class="progress-bar progress-bar-success"></div>
+          <div id="pbe" class="progress-bar progress-bar-danger"></div>
+        </div>
+      </td>
+    </tr>
+    <tr class="row">
+      <td colspan="6" class="col-xs-12" align="center">
+        <a id="feel-btn" class="btn btn-primary" style="color: white; width: 225px">Attach all songs</a>
+      </td>
+    </tr>
+  </table>
+  <%
+     stt = "ready"
+     if @status[:message] != ""
+       stt = "error"
+     elsif @status[:status] == "Yes"
+       stt = "putting"
+     elsif @status[:info][:total] == @status[:info][:put]
+       stt = "done"
+     end
+  %>
+  <!-- error, putting, ready, done -->
+  <input id="status" type="hidden" value="<%= stt %>"/>
+</div>
+
+<script>
+    var activateBar = function () {
+        $('#pbs').addClass("progress-bar-striped").addClass("active");
+        $('#pbe').addClass("progress-bar-striped").addClass("active");
+    }
+    var deactivateBar = function () {
+        $('#pbs').removeClass("progress-bar-striped").removeClass("active");
+        $('#pbe').removeClass("progress-bar-striped").removeClass("active");
+    }
+    var setSuccess = function (c, t) {
+        var p = t == 0 ? 0 : Math.floor(c * 100 / t);
+        $('#pbs').html(p == 0 ? "" : p + "%");
+        $('#pbs').removeAttr("style").css("width", (t == 0 ? 0 : c * 100 / t) + "%");
+        $('#num-total').html(t);
+        $('#num-success').html(c);
+    }
+    var setError = function (c, t) {
+        var p = t == 0 ? 0 : Math.floor(c * 100 / t);
+        $('#pbe').html(p == 0 ? "" : p + "%");
+        $('#pbe').removeAttr("style").css("width", (t == 0 ? 0 : c * 100 / t) + "%");
+        $('#num-total').html(t);
+        $('#num-error').html(c);
+    }
+    var validateAttachButton = function () {
+        if ($('#status').val() == "error") {
+            $('#feel-btn').html("Server internal error...");
+            $('#feel-btn').addClass("btn-danger");
+            $('#feel-btn').attr("disabled", "disabled")
+            return;
+        }
+        if ($('#num-total').html() == $('#num-success').html()) {
+            $('#feel-btn').html("Everything is put!");
+            $('#feel-btn').removeClass("btn-primary").addClass("btn-success");
+            $('#feel-btn').attr("disabled", "disabled");
+            deactivateBar();
+        } else if ($('#status').val() == "putting") {
+            $('#feel-btn').html("Songs are being attached...");
+            $('#feel-btn').removeClass("btn-success").addClass("btn-primary");
+            $('#feel-btn').attr("disabled", "disabled");
+            activateBar();
+        } else {
+            $('#feel-btn').html("Attach all songs");
+            $('#feel-btn').removeClass("btn-success").addClass("btn-primary");
+            $('#feel-btn').removeAttr("disabled");
+            deactivateBar();
+        }
+
+    }
+
+    var listen = function () {
+        setTimeout(function () {
+            $.ajax({
+                type: "GET",
+                url: "<%= status_path %>",
+                dataType: 'json',
+                error: function () {
+                    listen();
+                },
+                success: function (data) {
+                    if (data.status == "Yes") {
+                        setSuccess(data.info.put, data.info.total);
+                        setError(data.info.error, data.info.total);
+                        listen();
+                    } else {
+                        setSuccess(data.info.put, data.info.total);
+                        setError(data.info.error, data.info.total);
+                        $('#status').val("undefined");
+                        validateAttachButton();
+                    }
+                }
+            });
+        }, 1000);
+    }
+
+    $('#feel-btn').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "<%= feel_path %>",
+            beforeSend: function () {
+                listen();
+                $('#feel-btn').html("Songs are being attached...");
+                $('#feel-btn').removeClass("btn-success").addClass("btn-primary");
+                $('#feel-btn').attr("disabled", "disabled")
+                activateBar();
+            }
+        });
+
+    });
+    $(document).ready(function () {
+        setSuccess(<%= @status[:info][:put] %>, <%= @status[:info][:total] %>);
+        setError(<%= @status[:info][:error] %>, <%= @status[:info][:total] %>);
+        validateAttachButton();
+        if ($('#status').val() == "putting") {
+            listen();
+        }
+    });
+
+</script>

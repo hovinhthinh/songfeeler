@@ -1,0 +1,14 @@
+<% if @errors && @errors.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% @errors.errors.each do |attr, msg| %>
+            <li>
+              <% if attr != :fingerprint_hash %>
+                  <%= attr.to_s.split.map(&:capitalize).join(' ') %>
+              <% end %>
+              <%= msg %>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>

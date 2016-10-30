@@ -1,0 +1,31 @@
+<% result.each do |song| %>
+    <div class="display-block-spacing grid-item col-xs-6 col-sm-4 col-md-3 col-lg-2"
+         style="display: none"
+         id="grid-item-<%= song.id %>">
+      <div class="display-block img-rounded image">
+
+        <img class="img-rounded" style="width: 100%; height: 100%" id="imgSong-<%= song.id %>"
+             src="<%= song.mini_image == "" ? image_path("default-artist.jpg") : "data:image/jpg;base64," + song.mini_image %>"
+             onclick="location.href='<%= song_path(song)%>';">
+
+        <h3>
+          <span id="title-<%= song.id %>"><%= song.title %></span>
+        </h3>
+        <span style="font-size: 16px; display: block"><%= song.artist == "" ? "Artist not available" : song.artist %></span>
+        <a onclick="adSong(<%= song.id %>)" disabled status="0" id="adSong-<%= song.id %>" style="color: white; width: 65%"
+           class="btn btn-info" song-id="<%= song.id %>">
+          <i class="glyphicon glyphicon-off"></i> ...
+        </a>
+
+        <%= link_to "", song, id: ("rmSong-" + song.id.to_s), style: "display: none" %>
+        <a onclick="rmSong(<%= song.id %>)" id="rmSong-btn-<%= song.id %>" style="float:right; width: 30%" class="btn btn-danger">
+          <i class="glyphicon glyphicon-trash"></i>
+        </a>
+
+      </div>
+    </div>
+<% end %>
+<div next-offset="<%= offset %>"></div>
+
+
+

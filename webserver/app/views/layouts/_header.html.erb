@@ -1,0 +1,51 @@
+<div class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <span style="color: darkviolet; font-size: larger; font-family: Monaco">SongFeeler Web Gate</span>
+      </a>
+    </div>
+    <% if logged_in? %>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a rel="nofollow" data-method="delete" href="<%= logout_path %>">
+                Logout <i class="glyphicon glyphicon-log-out"></i>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-left">
+            <li class="active">
+              <a rel="nofollow" href="<%= home_path %>">
+                <i class="glyphicon glyphicon-home"></i> Home
+              </a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                 aria-expanded="false">Action <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a rel="nofollow" href="<%= home_path %>">
+                    <i class="glyphicon glyphicon glyphicon-list-alt"></i> View all songs
+                  </a>
+                </li>
+                <li>
+                  <a rel="nofollow" href="<%= new_path %>">
+                    <i class="glyphicon glyphicon glyphicon-plus"></i> Add a new song
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to detector_path do %>
+                      <i class="glyphicon glyphicon-flash"></i> Detector status
+                  <% end %>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+        </div>
+
+    <% end %>
+  </div>
+</div>
