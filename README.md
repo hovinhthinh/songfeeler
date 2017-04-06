@@ -1,4 +1,5 @@
 # songfeeler
+[![Build Status](https://travis-ci.org/hovinhthinh/songfeeler.svg?branch=master)](https://travis-ci.org/hovinhthinh/songfeeler)
 
 music recogition system (like Shazam, SoundHound and other systems)
 
